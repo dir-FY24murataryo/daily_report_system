@@ -5,19 +5,19 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 
-import actions.views.EmployeeView;
+import actions.views.ReportView;
 import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.JpaConst;
-import services.EmployeeService;
+import services.ReportService;
 
 /**
- * 従業員に関わる処理を行うActionクラス
+ * 日報に関する処理を行うActionクラス
  *
  */
-public class EmployeeAction extends ActionBase {
+public class ReportAction extends ActionBase {
 
-    private EmployeeService service;
+    private ReportService service;
 
     /**
      * メソッドを実行する
@@ -25,11 +25,10 @@ public class EmployeeAction extends ActionBase {
     @Override
     public void process() throws ServletException, IOException {
 
-        service = new EmployeeService();
+        service = new ReportService();
 
         //メソッドを実行
         invoke();
-
         service.close();
     }
 
@@ -40,15 +39,15 @@ public class EmployeeAction extends ActionBase {
      */
     public void index() throws ServletException, IOException {
 
-        //指定されたページ数の一覧画面に表示するデータを取得
+        //指定されたページ数の一覧画面に表示する日報データを取得
         int page = getPage();
-        List<EmployeeView> employees = service.getPerPage(page);
+        List<ReportView> reports = service.getAllPerPage(page);
 
-        //全ての従業員データの件数を取得
-        long employeeCount = service.countAll();
+        //全日報データの件数を取得
+        long reportsCount = service.countAll();
 
-        putRequestScope(AttributeConst.EMPLOYEES, employees); //取得した従業員データ
-        putRequestScope(AttributeConst.EMP_COUNT, employeeCount); //全ての従業員データの件数
+        putRequestScope(AttributeConst.REPORTS, reports); //取得した日報データ
+        putRequestScope(AttributeConst.REP_COUNT, reportsCount); //全ての日報データの件数
         putRequestScope(AttributeConst.PAGE, page); //ページ数
         putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); //1ページに表示するレコードの数
 
@@ -58,27 +57,9 @@ public class EmployeeAction extends ActionBase {
             putRequestScope(AttributeConst.FLUSH, flush);
             removeSessionScope(AttributeConst.FLUSH);
         }
-        
-        
 
         //一覧画面を表示
-        forward(ForwardConst.FW_EMP_INDEX);
-
+        forward(ForwardConst.FW_REP_INDEX);
     }
-    
-    /**
-     * 新規登録画面を表示する
-     * @throws ServletException
-     * @throws IOException
-     */
-    public void entryNew() throws ServletException, IOException {
-
-        putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-        putRequestScope(AttributeConst.EMPLOYEE, new EmployeeView()); //空の従業員インスタンス
-
-        //新規登録画面を表示
-        forward(ForwardConst.FW_EMP_NEW);
-    }
-
 
 }
