@@ -2,15 +2,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="constants.ForwardConst" %>
 <%@ page import="constants.AttributeConst" %>
-
+ 
 <c:set var="actTop" value="${ForwardConst.ACT_TOP.getValue()}" />
 <c:set var="actEmp" value="${ForwardConst.ACT_EMP.getValue()}" />
 <c:set var="actRep" value="${ForwardConst.ACT_REP.getValue()}" />
 <c:set var="actAuth" value="${ForwardConst.ACT_AUTH.getValue()}" />
-
+ 
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commOut" value="${ForwardConst.CMD_LOGOUT.getValue()}" />
-
+ 
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -37,7 +37,7 @@
                     &nbsp;さん&nbsp;&nbsp;&nbsp;
                     <a href="<c:url value='?action=${actAuth}&command=${commOut}' />">ログアウト</a>
                 </div>
-                </c:if>
+            </c:if>
         </div>
         <div id="content">${param.content}</div>
         <div id="footer">by Taro Kirameki.</div>
